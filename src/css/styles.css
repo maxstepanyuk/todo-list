@@ -5,4 +5,8 @@
 
 /* Sections style */
 @import url('./header.css');
+
+@import url('./task-form.css');
+@import url('./task-list.css');
+
 @import url('./footer.css');
