@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
-import { insertTask, renderTask } from './renderTasks';
+import { renderTask, renderTasks } from './renderTasks';
+import { saveTask, getTasks, initTasks, deleteTask } from './localStorageApi';
 
 export function onTaskFormSubmit(event) {
   event.preventDefault();
@@ -15,10 +16,32 @@ export function onTaskFormSubmit(event) {
   }
 
   const task = {
+    id: nanoid(),
     name: taskNameValue,
     description: taskDescriptionValue,
-    id: nanoid(),
   };
 
-  insertTask(renderTask(task));
+  renderTask(task);
+  saveTask(task);
+
+  event.target.reset();
+}
+
+export function initHomePage() {
+  initTasks();
+
+  const tasks = getTasks();
+  renderTasks(tasks);
+}
+
+export function onTaskButtonDeleteClick(event) {
+  if (event.target.nodeName !== 'BUTTON') {
+    return;
+  }
+
+  const taskId = event.target.dataset.id;
+  deleteTask(taskId);
+
+  const tasks = getTasks();
+  renderTasks(tasks);
 }
